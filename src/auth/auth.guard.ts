@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common"
 import { Reflector } from "@nestjs/core"
-import { AuthPort } from "./auth.port"
+import * as AuthPortModule from "./auth.port"
 import { AUTH_PORT } from "./auth.token"
 import { IS_PUBLIC_KEY } from "./decorators/public.decorator"
 
@@ -14,7 +14,7 @@ import { IS_PUBLIC_KEY } from "./decorators/public.decorator"
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    @Inject(AUTH_PORT) private readonly authPort: AuthPort,
+    @Inject(AUTH_PORT) private readonly authPort: AuthPortModule.AuthPort,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
