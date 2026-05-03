@@ -20,3 +20,8 @@ Thumbs.db
 prisma/migrations/dev.db*
 
 /generated/prisma
+
+# Claude / planning docs
+CLAUDE.md
+AGENTS.md
+docs/

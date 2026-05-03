@@ -1,5 +1,5 @@
-import { AuthContext } from "./auth.types"
+import { AuthContext } from './auth.types';
 
 export interface AuthPort {
-  resolveContext(headers: Record<string, string>): Promise<AuthContext | null>
+  resolveContext(headers: Record<string, string>): Promise<AuthContext | null>;
 }

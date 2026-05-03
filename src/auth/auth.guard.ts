@@ -4,11 +4,12 @@ import {
   Inject,
   Injectable,
   UnauthorizedException,
-} from "@nestjs/common"
-import { Reflector } from "@nestjs/core"
-import { AuthPort } from "./auth.port"
-import { AUTH_PORT } from "./auth.token"
-import { IS_PUBLIC_KEY } from "./decorators/public.decorator"
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { AuthPort } from './auth.port';
+import { AUTH_PORT } from './auth.token';
+import { AuthContext } from './auth.types';
+import { IS_PUBLIC_KEY } from './decorators/public.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -21,14 +22,17 @@ export class AuthGuard implements CanActivate {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
-    ])
-    if (isPublic) return true
+    ]);
+    if (isPublic) return true;
 
-    const req = context.switchToHttp().getRequest()
-    const authContext = await this.authPort.resolveContext(req.headers ?? {})
-    if (!authContext) throw new UnauthorizedException()
+    const req = context.switchToHttp().getRequest<{
+      headers: Record<string, string>;
+      authContext?: AuthContext;
+    }>();
+    const authContext = await this.authPort.resolveContext(req.headers ?? {});
+    if (!authContext) throw new UnauthorizedException();
 
-    req.authContext = authContext
-    return true
+    req.authContext = authContext;
+    return true;
   }
 }
