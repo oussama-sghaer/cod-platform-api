@@ -1,5 +1,5 @@
-import { calculateCogs, calculateTotalCosts } from './margin';
-import { OrderItemInput, CostItem } from './finance.types';
+import { calculateCogs, calculateTotalCosts, calculateMargin } from './margin';
+import { OrderItemInput, CostItem, MarginInput } from './finance.types';
 
 describe('calculateCogs', () => {
   it('returns totalCost = unitCost × quantity for a single item', () => {
@@ -65,5 +65,65 @@ describe('calculateTotalCosts', () => {
       { kind: 'packaging', amount: 0 },
     ];
     expect(calculateTotalCosts(costs)).toBe(0);
+  });
+});
+
+describe('calculateMargin', () => {
+  it('calculates positive gross margin correctly', () => {
+    const input: MarginInput = {
+      revenue: 100,
+      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      costs: [{ kind: 'carrier_fee', amount: 10 }],
+    };
+    const result = calculateMargin(input);
+    expect(result.cogs).toBe(40);
+    expect(result.totalCosts).toBe(10);
+    expect(result.grossMargin).toBe(50);
+    expect(result.revenue).toBe(100);
+  });
+
+  it('returns negative gross margin when costs exceed revenue', () => {
+    const input: MarginInput = {
+      revenue: 30,
+      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      costs: [{ kind: 'carrier_fee', amount: 10 }],
+    };
+    const result = calculateMargin(input);
+    expect(result.grossMargin).toBe(-20);
+  });
+
+  it('returns zero gross margin when revenue equals cogs plus costs', () => {
+    const input: MarginInput = {
+      revenue: 50,
+      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      costs: [{ kind: 'carrier_fee', amount: 10 }],
+    };
+    const result = calculateMargin(input);
+    expect(result.grossMargin).toBe(0);
+  });
+
+  it('includes per-item breakdown in result', () => {
+    const input: MarginInput = {
+      revenue: 100,
+      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      costs: [],
+    };
+    const result = calculateMargin(input);
+    expect(result.breakdown.items[0].totalCost).toBe(40);
+  });
+
+  it('passes costs through to breakdown unchanged', () => {
+    const costs: CostItem[] = [{ kind: 'carrier_fee', amount: 10 }];
+    const input: MarginInput = { revenue: 100, items: [], costs };
+    const result = calculateMargin(input);
+    expect(result.breakdown.costs).toEqual(costs);
+  });
+
+  it('handles empty items and empty costs', () => {
+    const input: MarginInput = { revenue: 100, items: [], costs: [] };
+    const result = calculateMargin(input);
+    expect(result.cogs).toBe(0);
+    expect(result.totalCosts).toBe(0);
+    expect(result.grossMargin).toBe(100);
   });
 });

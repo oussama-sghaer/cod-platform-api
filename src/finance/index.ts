@@ -1,2 +1,2 @@
 export * from './finance.types';
-export { calculateCogs, calculateTotalCosts } from './margin';
+export { calculateCogs, calculateTotalCosts, calculateMargin } from './margin';
