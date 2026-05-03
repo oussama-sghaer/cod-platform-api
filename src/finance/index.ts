@@ -1,3 +1,3 @@
 export * from './finance.types';
 export { calculateCogs, calculateTotalCosts, calculateMargin } from './margin';
-export { calculateReturnLoss } from './loss';
+export { calculateReturnLoss, calculateDamageLoss } from './loss';
