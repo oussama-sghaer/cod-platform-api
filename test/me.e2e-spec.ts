@@ -4,13 +4,13 @@ import { default as request } from "supertest"
 import { AppModule } from "../src/app.module"
 import { PrismaService } from "../src/prisma/prisma.service"
 
+process.env.AUTH_ADAPTER = "mock"
+process.env.MOCK_USER_ID = "00000000-0000-0000-0000-000000000002"
+
 describe("GET /me (e2e)", () => {
   let app: INestApplication
 
   beforeAll(async () => {
-    process.env.AUTH_ADAPTER = "mock"
-    process.env.MOCK_USER_ID = "00000000-0000-0000-0000-000000000002"
-
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })

@@ -5,13 +5,16 @@ import { MockAuthAdapter } from "./adapters/mock-auth.adapter"
 import { JwtAuthAdapter } from "./adapters/jwt-auth.adapter"
 import { AuthGuard } from "./auth.guard"
 
-const adapter = process.env.AUTH_ADAPTER === "jwt" ? JwtAuthAdapter : MockAuthAdapter
-
 @Module({
   providers: [
     MockAuthAdapter,
     JwtAuthAdapter,
-    { provide: AUTH_PORT, useExisting: adapter },
+    {
+      provide: AUTH_PORT,
+      useFactory: (mock: MockAuthAdapter, jwt: JwtAuthAdapter) =>
+        process.env.AUTH_ADAPTER === "jwt" ? jwt : mock,
+      inject: [MockAuthAdapter, JwtAuthAdapter],
+    },
     { provide: APP_GUARD, useClass: AuthGuard },
   ],
   exports: [AUTH_PORT],
