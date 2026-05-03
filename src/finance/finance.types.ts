@@ -1,7 +1,9 @@
+import { Decimal } from 'decimal.js';
+
 export interface OrderItemInput {
   variantId: string;
   batchItemId: string;
-  unitCost: number;
+  unitCost: Decimal;
   quantity: number;
 }
 
@@ -11,12 +13,12 @@ export interface ReturnItemInput extends OrderItemInput {
 
 export interface CostItem {
   kind: string;
-  amount: number;
+  amount: Decimal;
   referenceId?: string;
 }
 
 export interface MarginInput {
-  revenue: number;
+  revenue: Decimal;
   items: OrderItemInput[];
   costs: CostItem[];
 }
@@ -24,16 +26,16 @@ export interface MarginInput {
 export interface OrderItemCogs {
   variantId: string;
   batchItemId: string;
-  unitCost: number;
+  unitCost: Decimal;
   quantity: number;
-  totalCost: number;
+  totalCost: Decimal;
 }
 
 export interface MarginResult {
-  revenue: number;
-  cogs: number;
-  totalCosts: number;
-  grossMargin: number;
+  revenue: Decimal;
+  cogs: Decimal;
+  totalCosts: Decimal;
+  grossMargin: Decimal;
   breakdown: {
     items: OrderItemCogs[];
     costs: CostItem[];
@@ -51,7 +53,7 @@ export interface DamageLossInput {
 }
 
 export interface LossResult {
-  cogsLoss: number;
-  costsLoss: number;
-  totalLoss: number;
+  cogsLoss: Decimal;
+  costsLoss: Decimal;
+  totalLoss: Decimal;
 }
