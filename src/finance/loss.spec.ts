@@ -5,7 +5,13 @@ describe('calculateReturnLoss', () => {
   it('cogsLoss is 0 when all units are recovered', () => {
     const input: ReturnLossInput = {
       items: [
-        { variantId: 'v1', batchItemId: 'b1', unitCost: 20, quantity: 3, quantityRecovered: 3 },
+        {
+          variantId: 'v1',
+          batchItemId: 'b1',
+          unitCost: 20,
+          quantity: 3,
+          quantityRecovered: 3,
+        },
       ],
       costs: [{ kind: 'carrier_fee', amount: 5 }],
     };
@@ -18,7 +24,13 @@ describe('calculateReturnLoss', () => {
   it('cogsLoss equals full COGS when no units are recovered', () => {
     const input: ReturnLossInput = {
       items: [
-        { variantId: 'v1', batchItemId: 'b1', unitCost: 20, quantity: 3, quantityRecovered: 0 },
+        {
+          variantId: 'v1',
+          batchItemId: 'b1',
+          unitCost: 20,
+          quantity: 3,
+          quantityRecovered: 0,
+        },
       ],
       costs: [{ kind: 'carrier_fee', amount: 5 }],
     };
@@ -31,8 +43,20 @@ describe('calculateReturnLoss', () => {
   it('computes partial cogsLoss per item based on unrecovered quantity', () => {
     const input: ReturnLossInput = {
       items: [
-        { variantId: 'v1', batchItemId: 'b1', unitCost: 20, quantity: 3, quantityRecovered: 1 },
-        { variantId: 'v2', batchItemId: 'b2', unitCost: 10, quantity: 2, quantityRecovered: 2 },
+        {
+          variantId: 'v1',
+          batchItemId: 'b1',
+          unitCost: 20,
+          quantity: 3,
+          quantityRecovered: 1,
+        },
+        {
+          variantId: 'v2',
+          batchItemId: 'b2',
+          unitCost: 10,
+          quantity: 2,
+          quantityRecovered: 2,
+        },
       ],
       costs: [],
     };
@@ -45,7 +69,13 @@ describe('calculateReturnLoss', () => {
   it('returns zero totalLoss for fully recovered return with no costs', () => {
     const input: ReturnLossInput = {
       items: [
-        { variantId: 'v1', batchItemId: 'b1', unitCost: 20, quantity: 2, quantityRecovered: 2 },
+        {
+          variantId: 'v1',
+          batchItemId: 'b1',
+          unitCost: 20,
+          quantity: 2,
+          quantityRecovered: 2,
+        },
       ],
       costs: [],
     };
@@ -57,7 +87,9 @@ describe('calculateReturnLoss', () => {
 describe('calculateDamageLoss', () => {
   it('cogsLoss equals full COGS for a single item', () => {
     const input: DamageLossInput = {
-      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 30, quantity: 2 }],
+      items: [
+        { variantId: 'v1', batchItemId: 'b1', unitCost: 30, quantity: 2 },
+      ],
       costs: [{ kind: 'carrier_fee', amount: 8 }],
     };
     const result = calculateDamageLoss(input);

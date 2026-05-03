@@ -1,4 +1,10 @@
-import { OrderItemInput, OrderItemCogs, CostItem, MarginInput, MarginResult } from './finance.types';
+import {
+  OrderItemInput,
+  OrderItemCogs,
+  CostItem,
+  MarginInput,
+  MarginResult,
+} from './finance.types';
 
 export function calculateCogs(items: OrderItemInput[]): OrderItemCogs[] {
   return items.map((item) => ({

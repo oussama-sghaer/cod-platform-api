@@ -8,7 +8,13 @@ describe('calculateCogs', () => {
     ];
     const result = calculateCogs(items);
     expect(result).toEqual([
-      { variantId: 'v1', batchItemId: 'b1', unitCost: 10, quantity: 3, totalCost: 30 },
+      {
+        variantId: 'v1',
+        batchItemId: 'b1',
+        unitCost: 10,
+        quantity: 3,
+        totalCost: 30,
+      },
     ]);
   });
 
@@ -72,7 +78,9 @@ describe('calculateMargin', () => {
   it('calculates positive gross margin correctly', () => {
     const input: MarginInput = {
       revenue: 100,
-      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      items: [
+        { variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 },
+      ],
       costs: [{ kind: 'carrier_fee', amount: 10 }],
     };
     const result = calculateMargin(input);
@@ -85,7 +93,9 @@ describe('calculateMargin', () => {
   it('returns negative gross margin when costs exceed revenue', () => {
     const input: MarginInput = {
       revenue: 30,
-      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      items: [
+        { variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 },
+      ],
       costs: [{ kind: 'carrier_fee', amount: 10 }],
     };
     const result = calculateMargin(input);
@@ -95,7 +105,9 @@ describe('calculateMargin', () => {
   it('returns zero gross margin when revenue equals cogs plus costs', () => {
     const input: MarginInput = {
       revenue: 50,
-      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      items: [
+        { variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 },
+      ],
       costs: [{ kind: 'carrier_fee', amount: 10 }],
     };
     const result = calculateMargin(input);
@@ -105,7 +117,9 @@ describe('calculateMargin', () => {
   it('includes per-item breakdown in result', () => {
     const input: MarginInput = {
       revenue: 100,
-      items: [{ variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 }],
+      items: [
+        { variantId: 'v1', batchItemId: 'b1', unitCost: 40, quantity: 1 },
+      ],
       costs: [],
     };
     const result = calculateMargin(input);
