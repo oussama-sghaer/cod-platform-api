@@ -9,3 +9,7 @@ export function calculateCogs(items: OrderItemInput[]): OrderItemCogs[] {
     totalCost: item.unitCost * item.quantity,
   }));
 }
+
+export function calculateTotalCosts(costs: CostItem[]): number {
+  return costs.reduce((sum, cost) => sum + cost.amount, 0);
+}
